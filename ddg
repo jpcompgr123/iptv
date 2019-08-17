@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+from duckduckgo import search
+from sys import argv, stderr, exit
+from getopt import getopt, GetoptError
+
+def usage():
+	print >>stderr, "Made better by 0x08"
+	print >>stderr, "Usage: ddg [options] <keywords>"
+	print >>stderr, "    -n N    return N search results"
+
+def main():
+    max_results = 0
+    try:
+        optlist, args = getopt(argv[1:], "n:")
+    except GetoptError, err:
+        print >>stderr, str(err)
+        exit(2)
+    for o, a in optlist:
+        if o == "-n":
+            max_results = int(a)
+    if len(args) < 1:
+        usage()
+        exit(2)
+    keywords = args
+    temp = []
+    for result in search(keywords, max_results = max_results):
+        if result not in temp:
+            print result
+            temp.append(result)
+
+if __name__ == "__main__":
+	main()
+
+
